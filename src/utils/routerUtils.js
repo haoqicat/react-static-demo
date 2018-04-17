@@ -1,3 +1,10 @@
 import createHistory from 'history/createBrowserHistory'
 
-export default createHistory()
+const genHistory = () => {
+  if (typeof document !== 'undefined') {
+    return createHistory()
+  }
+  return {}
+}
+
+export default genHistory()

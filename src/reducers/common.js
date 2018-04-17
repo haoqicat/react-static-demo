@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux'
 import * as types from '../constants/ActionTypes'
 
-const initAuthState = !!window.localStorage.getItem('authSecret')
+let initAuthState = false
+
+if (typeof document !== 'undefined') {
+  initAuthState = !!window.localStorage.getItem('authSecret')
+}
 
 const isAuthenticated = (state = initAuthState, action) => {
   switch (action.type) {
