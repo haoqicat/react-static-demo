@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { message } from 'antd'
+import history from '../utils/routerUtils'
 
 class Logout extends Component {
+  componentDidMount () {
+    const { isAuthenticated } = this.props
+    if (!isAuthenticated) history.push('/')
+  }
+
   handleClick = () => {
     this.props.logout().then(data => message.success(data))
   }

@@ -1,10 +1,14 @@
 import React from 'react'
-import Logout from '../components/Logout'
 import { connect } from 'react-redux'
+import Logout from '../components/Logout'
 import { logout } from '../actions'
 
 const LogoutContainer = props => <Logout {...props} />
 
-export default connect(null, {
+const mapStateToProps = state => ({
+  isAuthenticated: state.common.isAuthenticated,
+})
+
+export default connect(mapStateToProps, {
   logout,
 })(LogoutContainer)
