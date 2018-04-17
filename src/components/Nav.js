@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Menu, Icon } from 'antd'
+import { Link } from 'react-static'
 
 const SubMenu = Menu.SubMenu
 
@@ -8,6 +9,7 @@ class Nav extends Component {
   render () {
     return (
       <Wrap>
+        <Link to="/" />
         <Menu
           style={{ borderRight: 'none' }}
           defaultOpenKeys={['stat', 'post']}

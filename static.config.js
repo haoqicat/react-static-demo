@@ -55,6 +55,10 @@ export default {
         path: '/charts',
         component: 'src/components/Charts',
       },
+      {
+        is404: true,
+        component: 'src/components/NotFound',
+      },
     ]
   },
   renderToHtml: (render, Comp, meta) => {
