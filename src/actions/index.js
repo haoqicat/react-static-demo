@@ -42,3 +42,7 @@ export const loadSelectedInex = () => dispatch => {
   const path = history.location.pathname
   dispatch(updateSelectedIndex(path))
 }
+
+export const submitPost = () => () => {
+  history.push('/posts')
+}

@@ -45,7 +45,7 @@ export default {
       },
       {
         path: '/posts/new',
-        component: 'src/components/NewPost',
+        component: 'src/containers/NewPostContainer',
       },
       {
         path: '/posts',
