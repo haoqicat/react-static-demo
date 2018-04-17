@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { message } from 'antd'
 
 class Logout extends Component {
+  handleClick = () => {
+    this.props.logout().then(data => message.success(data))
+  }
+
   render () {
     return (
       <Wrap>
-        <LogoutText>退出</LogoutText>
+        <LogoutText onClick={this.handleClick}>退出</LogoutText>
         <UserName>admin</UserName>
       </Wrap>
     )
