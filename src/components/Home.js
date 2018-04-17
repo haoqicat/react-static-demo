@@ -24,6 +24,7 @@ class Home extends Component {
 
     return (
       <Wrap>
+        <Link to="/charts" />
         <Card>
           <Form onSubmit={this.handleSubmit}>
             <FormItem>

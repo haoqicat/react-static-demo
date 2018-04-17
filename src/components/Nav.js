@@ -20,6 +20,9 @@ class Nav extends Component {
     return (
       <Wrap>
         <Link to="/" />
+        <Link to="/charts" />
+        <Link to="/posts" />
+        <Link to="/posts/new" />
         <Menu
           onClick={this.handleClick}
           style={{ borderRight: 'none' }}
