@@ -6,14 +6,25 @@ import { Link } from 'react-static'
 const SubMenu = Menu.SubMenu
 
 class Nav extends Component {
+  componentDidMount () {
+    this.props.loadSelectedInex()
+  }
+
+  handleClick = e => {
+    this.props.selectItem(e.key)
+  }
+
   render () {
+    const { selectedIndex } = this.props
+
     return (
       <Wrap>
         <Link to="/" />
         <Menu
+          onClick={this.handleClick}
           style={{ borderRight: 'none' }}
           defaultOpenKeys={['stat', 'post']}
-          selectedKeys={['/charts']}
+          selectedKeys={[selectedIndex]}
           mode="inline"
         >
           <SubMenu

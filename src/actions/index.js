@@ -19,3 +19,18 @@ export const logout = () => dispatch => {
   window.localStorage.removeItem('authSecret')
   return Promise.resolve('您已退出登录！')
 }
+
+const updateSelectedIndex = index => ({
+  type: types.UPDATE_SELECTED_INDEX,
+  index,
+})
+
+export const selectItem = link => dispatch => {
+  history.push(link)
+  dispatch(updateSelectedIndex(link))
+}
+
+export const loadSelectedInex = () => dispatch => {
+  const path = history.location.pathname
+  dispatch(updateSelectedIndex(path))
+}

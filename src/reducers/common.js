@@ -14,6 +14,16 @@ const isAuthenticated = (state = initAuthState, action) => {
   }
 }
 
+const selectedIndex = (state = '/charts', action) => {
+  switch (action.type) {
+    case types.UPDATE_SELECTED_INDEX:
+      return action.index
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   isAuthenticated,
+  selectedIndex,
 })
