@@ -18,7 +18,9 @@ const fs = require('fs')
 
 const lessToJs = require('less-vars-to-js')
 
-const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, 'src/theme-ant-overwrite.less'), 'utf8'))
+const themeVariables = lessToJs(
+  fs.readFileSync(path.join(__dirname, 'src/theme-ant-overwrite.less'), 'utf8')
+)
 
 const webpack = require('webpack')
 
@@ -28,33 +30,18 @@ export default {
     title: 'React Static',
   }),
   getRoutes: async () => {
-    const { data: posts } = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    const { data } = await axios.get('https://jsonplaceholder.typicode.com/posts/1')
     return [
       {
         path: '/',
-        component: 'src/containers/Home',
+        component: 'src/components/Home',
       },
       {
         path: '/about',
-        component: 'src/containers/About',
-      },
-      {
-        path: '/blog',
-        component: 'src/containers/Blog',
+        component: 'src/components/About',
         getData: () => ({
-          posts,
+          text: data.body,
         }),
-        children: posts.map(post => ({
-          path: `/post/${post.id}`,
-          component: 'src/containers/Post',
-          getData: () => ({
-            post,
-          }),
-        })),
-      },
-      {
-        is404: true,
-        component: 'src/containers/404',
       },
     ]
   },
@@ -66,9 +53,7 @@ export default {
   },
   Document: class CustomHtml extends Component {
     render () {
-      const {
-        Html, Head, Body, children, renderMeta,
-      } = this.props
+      const { Html, Head, Body, children, renderMeta } = this.props
 
       return (
         <Html>
@@ -77,9 +62,7 @@ export default {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             {renderMeta.styleTags}
           </Head>
-          <Body>
-            {children}
-          </Body>
+          <Body>{children}</Body>
         </Html>
       )
     }
@@ -118,7 +101,6 @@ export default {
       ],
     }
 
-
     /*
     * Less Support
     * */
@@ -135,17 +117,68 @@ export default {
       config.plugins.push(new webpack.HotModuleReplacementPlugin())
 
       // In-Line with style-loader
-      lessLoader =
-        {
-          test: /\.less$/,
+      lessLoader = {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              minimize: false,
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              // Necessary for external CSS imports to work
+              // https://github.com/facebookincubator/create-react-app/issues/2677
+              sourceMap: true,
+              ident: 'postcss',
+              plugins: () => [
+                postcssFlexbugsFixes,
+                autoprefixer({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ],
+            },
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+              modifyVars: themeVariables,
+              javascriptEnabled: true,
+            },
+          },
+        ],
+      }
+    } else {
+      // Extract to style.css
+      lessLoader = {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: {
+            loader: 'style-loader',
+            options: {
+              hmr: false,
+              sourceMap: false,
+            },
+          },
           use: [
-            'style-loader',
             {
               loader: 'css-loader',
               options: {
                 importLoaders: 1,
-                minimize: false,
-                sourceMap: true,
+                minimize: true,
+                sourceMap: false,
               },
             },
             {
@@ -153,7 +186,6 @@ export default {
               options: {
                 // Necessary for external CSS imports to work
                 // https://github.com/facebookincubator/create-react-app/issues/2677
-                sourceMap: true,
                 ident: 'postcss',
                 plugins: () => [
                   postcssFlexbugsFixes,
@@ -172,66 +204,14 @@ export default {
             {
               loader: 'less-loader',
               options: {
-                sourceMap: true,
+                sourceMap: false,
                 modifyVars: themeVariables,
                 javascriptEnabled: true,
               },
             },
           ],
-        }
-    } else {
-      // Extract to style.css
-      lessLoader =
-        {
-          test: /\.less$/,
-          loader: ExtractTextPlugin.extract({
-            fallback: {
-              loader: 'style-loader',
-              options: {
-                hmr: false,
-                sourceMap: false,
-              },
-            },
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                  minimize: true,
-                  sourceMap: false,
-                },
-              },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    postcssFlexbugsFixes,
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-              {
-                loader: 'less-loader',
-                options: {
-                  sourceMap: false,
-                  modifyVars: themeVariables,
-                  javascriptEnabled: true,
-                },
-              },
-            ],
-          }),
-        }
+        }),
+      }
     }
 
     /*
@@ -240,24 +220,18 @@ export default {
 
     config.module.rules = [
       {
-        oneOf: [
-          jsTsLoader,
-          lessLoader,
-          defaultLoaders.cssLoader,
-          defaultLoaders.fileLoader,
-        ],
+        oneOf: [jsTsLoader, lessLoader, defaultLoaders.cssLoader, defaultLoaders.fileLoader],
       },
     ]
 
     // Update ExtractTextPlugin with current instance
-    config.plugins[2] =
-      new ExtractTextPlugin({
-        filename: getPath => {
-          process.env.extractedCSSpath = 'styles.css'
-          return getPath('styles.css')
-        },
-        allChunks: true,
-      })
+    config.plugins[2] = new ExtractTextPlugin({
+      filename: getPath => {
+        process.env.extractedCSSpath = 'styles.css'
+        return getPath('styles.css')
+      },
+      allChunks: true,
+    })
 
     return config
   },

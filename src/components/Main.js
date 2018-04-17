@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
-import Home from './Home'
+import { Router } from 'react-static'
+import Routes from 'react-static-routes'
 
 class Main extends Component {
   render () {
     return (
-      <Wrap>
-        <Home />
-      </Wrap>
+      <Router>
+        <Routes />
+      </Router>
     )
   }
 }
 
 export default Main
-
-const Wrap = styled.div``
