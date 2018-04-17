@@ -43,6 +43,18 @@ export default {
           text: data.body,
         }),
       },
+      {
+        path: '/posts/new',
+        component: 'src/components/NewPost',
+      },
+      {
+        path: '/posts',
+        component: 'src/components/Posts',
+      },
+      {
+        path: '/charts',
+        component: 'src/components/Charts',
+      },
     ]
   },
   renderToHtml: (render, Comp, meta) => {
