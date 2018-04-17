@@ -34,7 +34,7 @@ export default {
     return [
       {
         path: '/',
-        component: 'src/components/Home',
+        component: 'src/containers/HomeContainer',
       },
       {
         path: '/about',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Button, Input, Icon, Form } from 'antd'
+import { Button, Input, Icon, Form, message } from 'antd'
 import { Link } from 'react-static'
 
 const FormItem = Form.Item
@@ -9,7 +9,14 @@ class Home extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const data = this.props.form.getFieldsValue()
-    console.log(data)
+    this.props
+      .login(data)
+      .then(data => {
+        message.success(data)
+      })
+      .catch(err => {
+        message.error(err.message)
+      })
   }
 
   render () {
