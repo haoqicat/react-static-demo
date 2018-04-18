@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { Table } from 'antd'
+
 import Layout from './Layout'
+import tableColumns from '../constants/tableColumns'
 
 class Posts extends Component {
   componentDidMount () {
@@ -8,8 +11,9 @@ class Posts extends Component {
 
   render () {
     const { posts } = this.props
-    console.log('posts', posts)
-    return <Layout>Posts</Layout>
+    const table = <Table rowKey={record => record.id} columns={tableColumns} dataSource={posts} />
+
+    return <Layout>{table}</Layout>
   }
 }
 
