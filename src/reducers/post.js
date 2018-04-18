@@ -10,6 +10,18 @@ const all = (state = [], action) => {
   }
 }
 
+const isFetching = (state = false, action) => {
+  switch (action.type) {
+    case types.LOAD_POSTS_REQUEST:
+      return true
+    case types.LOAD_POSTS_SUCCESS:
+      return false
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   all,
+  isFetching,
 })

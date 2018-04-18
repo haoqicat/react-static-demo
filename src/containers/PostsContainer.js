@@ -8,6 +8,7 @@ const PostsContainer = props => <Posts {...props} />
 
 const mapStateToProps = state => ({
   posts: state.post.all,
+  isFetching: state.post.isFetching,
 })
 
 export default connect(mapStateToProps, { loadPosts })(PostsContainer)

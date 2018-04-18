@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table } from 'antd'
+import { Table, Spin } from 'antd'
 
 import Layout from './Layout'
 import tableColumns from '../constants/tableColumns'
@@ -10,10 +10,10 @@ class Posts extends Component {
   }
 
   render () {
-    const { posts } = this.props
+    const { posts, isFetching } = this.props
     const table = <Table rowKey={record => record.id} columns={tableColumns} dataSource={posts} />
 
-    return <Layout>{table}</Layout>
+    return <Layout>{isFetching ? <Spin /> : table}</Layout>
   }
 }
 

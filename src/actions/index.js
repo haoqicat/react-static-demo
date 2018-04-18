@@ -49,6 +49,7 @@ export const submitPost = () => () => {
 }
 
 export const loadPosts = () => async dispatch => {
+  dispatch({ type: types.LOAD_POSTS_REQUEST })
   const { data: posts } = await axios.get('https://jsonplaceholder.typicode.com/posts')
   dispatch({
     type: types.LOAD_POSTS_SUCCESS,
