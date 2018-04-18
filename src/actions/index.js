@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { USERNAME, PASSWORD, AUTH_SECRET } from '../constants/Settings.js'
 import history from '../utils/routerUtils'
 import * as types from '../constants/ActionTypes'
@@ -45,4 +46,12 @@ export const loadSelectedInex = () => dispatch => {
 
 export const submitPost = () => () => {
   history.push('/posts')
+}
+
+export const loadPosts = () => async dispatch => {
+  const { data: posts } = await axios.get('https://jsonplaceholder.typicode.com/posts')
+  dispatch({
+    type: types.LOAD_POSTS_SUCCESS,
+    posts,
+  })
 }

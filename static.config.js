@@ -49,7 +49,7 @@ export default {
       },
       {
         path: '/posts',
-        component: 'src/components/Posts',
+        component: 'src/containers/PostsContainer',
       },
       {
         path: '/charts',
