@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Spin } from 'antd'
 
-import Layout from './Layout'
+import Layout from '../containers/LayoutContainer.js'
 import tableColumns from '../constants/tableColumns'
 
 class Posts extends Component {

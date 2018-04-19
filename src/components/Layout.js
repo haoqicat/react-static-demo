@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 import Logout from '../containers/LogoutContainer'
 import Nav from '../containers/NavContainer'
 
 class Layout extends Component {
   render () {
+    const { isPageLoading } = this.props
+    if (isPageLoading) {
+      NProgress.start()
+    } else {
+      NProgress.done()
+    }
     return (
       <Wrap>
         <Sider>

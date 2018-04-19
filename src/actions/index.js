@@ -56,3 +56,11 @@ export const loadPosts = () => async dispatch => {
     posts,
   })
 }
+
+export const setPageLoading = () => ({
+  type: types.SET_PAGE_LOADING,
+})
+
+export const setPageLoaded = () => ({
+  type: types.PAGE_LOADED,
+})

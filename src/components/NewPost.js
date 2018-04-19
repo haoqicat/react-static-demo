@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
-import Layout from './Layout'
+import Layout from '../containers/LayoutContainer.js'
 
 class NewPost extends Component {
   handleClick = () => {

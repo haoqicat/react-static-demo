@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Layout from './Layout'
+import Layout from '../containers/LayoutContainer.js'
 
 class Charts extends Component {
   render () {

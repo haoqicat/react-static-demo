@@ -27,7 +27,19 @@ const selectedIndex = (state = '/charts', action) => {
   }
 }
 
+const isPageLoading = (state = false, action) => {
+  switch (action.type) {
+    case types.SET_PAGE_LOADING:
+      return true
+    case types.PAGE_LOADED:
+      return false
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   isAuthenticated,
   selectedIndex,
+  isPageLoading,
 })
